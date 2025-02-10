@@ -15,45 +15,34 @@ async function obterComunicacoes(dataInicio, dataFim) {
         const dados = await response.json();
 
         if (dados.items && Array.isArray(dados.items)) {
-            let csvContent = "data:text/csv;charset=utf-8,";
-            const headers = [
-                "ID", "Data Disponibilização", "Tribunal", "Tipo Comunicação",
-                "Órgão", "Texto", "Número Processo", "Link", "Tipo Documento",
-                "Classe", "Número Comunicação", "Status", "Meio", "Destinatários", "Advogados"
-            ];
-            csvContent += headers.join(";") + "\n";
+            // Criando os dados formatados para o Excel
+            const listaProcessada = dados.items.map(item => ({
+                "ID": item.id || "",
+                "Data Disponibilização": item.data_disponibilizacao || "",
+                "Tribunal": item.siglaTribunal || "",
+                "Tipo Comunicação": item.tipoComunicacao || "",
+                "Órgão": item.nomeOrgao || "",
+                "Texto": item.texto || "",
+                "Número Processo": item.numero_processo || "",
+                "Link": item.link || "",
+                "Tipo Documento": item.tipoDocumento || "",
+                "Classe": item.nomeClasse || "",
+                "Número Comunicação": item.numeroComunicacao || "",
+                "Status": item.status || "",
+                "Meio": item.meiocompleto || "",
+                "Destinatários": (item.destinatarios || []).map(dest => dest.nome).join(", "),
+                "Advogados": (item.destinatarioadvogados || []).map(adv => adv.advogado.nome).join(", ")
+            }));
 
-            dados.items.forEach(item => {
-                const linha = [
-                    item.id,
-                    item.data_disponibilizacao,
-                    item.siglaTribunal,
-                    item.tipoComunicacao,
-                    item.nomeOrgao,
-                    `"${item.texto}"`, 
-                    item.numero_processo,
-                    item.link,
-                    item.tipoDocumento,
-                    item.nomeClasse,
-                    item.numeroComunicacao,
-                    item.status,
-                    item.meiocompleto,
-                    (item.destinatarios || []).map(dest => dest.nome).join(", "),
-                    (item.destinatarioadvogados || []).map(adv => adv.advogado.nome).join(", ")
-                ].map(value => value || "").join(";");
+            // Criando a planilha
+            const ws = XLSX.utils.json_to_sheet(listaProcessada);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Comunicações OAB");
 
-                csvContent += linha + "\n";
-            });
+            // Gerando e baixando o arquivo Excel
+            XLSX.writeFile(wb, "comunicacoes_oab.xlsx");
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "comunicacoes_oab.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            alert("Arquivo CSV gerado com sucesso!");
+            alert("Arquivo Excel gerado com sucesso!");
         } else {
             alert("Nenhuma comunicação encontrada.");
         }
