@@ -1,0 +1,103 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body{
+    background-color: hsl(0, 0%, 8%);
+    display: flexbox;
+    place-items: center;
+    vertical-align: text-top;
+    object-position: center;
+    justify-content: center;
+    align-items: center;
+    font-family: Inter;
+       
+}
+
+
+.container{
+    /*background-color: aliceblue;*/
+    display: flex;
+    place-items: center;
+    align-items: center;
+    object-position: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+
+    .centerbox{
+        background-color: hsl(0, 0%, 12%);
+        width: 350px;
+        /*height: 600PX;*/
+        border-radius: 10px;
+        color: hsl(0, 0%, 100%);
+        padding: 15px;
+
+        img{
+            border-radius: 100vmax;
+            width: 80px;
+        }
+
+        div{margin: 15px;}
+
+        .SocialMedia{
+            height: 50px;
+            background-color: hsl(0, 0%, 20%);
+            
+            /*centralizar os textos nas boxes*/
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+
+            /*Bordas*/
+            border-radius: 10px;
+
+
+            /*Fontes*/
+            color: hsl(0, 0%, 100%);
+            font-weight: 700;
+            font-size: 14px;
+
+            
+            a{
+                color: hsl(0, 0%, 100%);
+                text-decoration: none;
+            }
+            
+            
+        }
+        
+        .SocialMedia:hover{
+            background-color: hsl(0, 0%, 30%);
+            a{color: hsl(75, 94%, 57%)};
+        }
+
+        
+        .from{
+            color: hsl(75, 94%, 57%);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .name{
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .aboutMe{
+            padding: 15px;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+    }
+
+
+}
+footer{
+    color: hsl(0, 0%, 100%);
+    font-size: 10px;
+}
+
+
+.attribution { font-size: 11px; text-align: center; color: hsl(0, 0%, 100%);}
+.attribution a { color: hsl(228, 45%, 44%); }
