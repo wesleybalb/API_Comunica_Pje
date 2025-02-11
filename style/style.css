@@ -86,7 +86,7 @@ body{
 
         /* Para Firefox */
         input[type="number"] {
-        -moz-appearance: textfield;
+            -moz-appearance: textfield;
         }
 
 
@@ -121,9 +121,7 @@ footer{
     width: 100vh;
     position: relative;
     
-    
+    a{
+        color: white;
+    }
 }
-
-
-.attribution { font-size: 11px; text-align: center; color: hsl(0, 0%, 100%);}
-.attribution a { color: hsl(228, 45%, 44%); }
