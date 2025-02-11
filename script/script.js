@@ -1,5 +1,14 @@
-async function obterComunicacoes(dataInicio, dataFim) {
-    const url = `https://comunicaapi.pje.jus.br/api/v1/comunicacao?numeroOab=164024&ufOab=RJ&dataDisponibilizacaoInicio=${dataInicio}&dataDisponibilizacaoFim=${dataFim}`;
+
+
+
+async function obterComunicacoes() {
+    
+    let dataInicio = document.getElementById("dataInicio").value
+    let dataFim = document.getElementById("dataFim").value
+    let oab = document.getElementById("OAB").value
+    let ufOab = document.getElementById("UF").value
+
+    const url = `https://comunicaapi.pje.jus.br/api/v1/comunicacao?numeroOab=${oab}&ufOab=${ufOab}&dataDisponibilizacaoInicio=${dataInicio}&dataDisponibilizacaoFim=${dataFim}`;
 
     const headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",

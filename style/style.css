@@ -2,8 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body{
-    background-color: hsl(0, 0%, 8%);
-    display: flexbox;
+    /*cor de plano de fundo caso a imagem não carregue*/
+    background-color: rgba(61, 60, 60, 0.863);
+    
+    /*imagem de plano de fundo*/
+    background-image:url('/assets/unifoa-fachada.jpg');
+    background-size: cover; /* Faz a imagem cobrir todo o fundo */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Evita repetição da imagem */
+    height: 100vh;
+
+    /*display: flexbox;*/
     place-items: center;
     vertical-align: text-top;
     object-position: center;
@@ -15,87 +24,104 @@ body{
 
 
 .container{
-    /*background-color: aliceblue;*/
+    /*alinhamento dos itens*/
     display: flex;
     place-items: center;
     align-items: center;
     object-position: center;
     justify-content: center;
     text-align: center;
-    height: 100vh;
+    height: 98vh;/*garante que o footer esteja no fim da página, proporcional à imagem*/
+   
+
+    h1{
+        font-size: x-large;
+    }
+    p{
+        font-size: 14px;
+        
+        /*alinhamento dos parágrafos à esquerda*/
+        text-align: left;
+        padding: 20px;
+    }
 
     .centerbox{
-        background-color: hsl(0, 0%, 12%);
+        background-color: hsla(0, 0%, 12%, 0.918);
         width: 350px;
-        /*height: 600PX;*/
         border-radius: 10px;
         color: hsl(0, 0%, 100%);
         padding: 15px;
-
-        img{
-            border-radius: 100vmax;
-            width: 80px;
+        
+        div{
+            margin: 15px;
+            padding: 5px;
         }
 
-        div{margin: 15px;}
+        .innerBox{
+            /*Alinhei os itens à direita e utilizei espaçamento para coloca-los no centro*/
+            text-align: right;
+            padding-right: 40px;
+        }
 
-        .SocialMedia{
-            height: 50px;
-            background-color: hsl(0, 0%, 20%);
+
+
+        input, select, button{
+            /*padronização dos inputs e demais entradas*/
+            background-color: white;
+            border: none;
+            height: 30px;
+            border-radius: 5px;
+            width: 100px;
+            text-align: center;
             
-            /*centralizar os textos nas boxes*/
-            display: flex; 
-            justify-content: center;
-            align-items: center;
+        }
 
-            /*Bordas*/
-            border-radius: 10px;
+        /*Reirar as setas de aumentar e diminuir numeros na input*/
+        /* Para navegadores baseados em WebKit (Chrome, Safari, Edge) */
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Para Firefox */
+        input[type="number"] {
+        -moz-appearance: textfield;
+        }
 
 
-            /*Fontes*/
-            color: hsl(0, 0%, 100%);
-            font-weight: 700;
-            font-size: 14px;
+        button{
+            /*aumentei o botão, para melhorar a aparência*/
+            height: 35px;
+        }
 
-            
-            a{
-                color: hsl(0, 0%, 100%);
-                text-decoration: none;
-            }
-            
-            
+        button:hover{
+            /*efeito ao selecionar o botão com o mouse*/
+            background-color: rgb(105, 104, 104);   
+        }
+
+        button:active{
+            /*efeito diferenciado no click do botão*/
+            background-color: rgb(63, 62, 62);
+            color: white;
         }
         
-        .SocialMedia:hover{
-            background-color: hsl(0, 0%, 30%);
-            a{color: hsl(75, 94%, 57%)};
+        label{
+            /*aumento do espaçamento das labels para distanciar dos inputs para melhor centralização, criando um espaçamento unificado*/
+            padding-right: 15px;
         }
-
-        
-        .from{
-            color: hsl(75, 94%, 57%);
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .name{
-            font-weight: 600;
-            font-size: 24px;
-        }
-
-        .aboutMe{
-            padding: 15px;
-            font-weight: 400;
-            font-size: 14px;
-        }
-
     }
-
-
 }
 footer{
-    color: hsl(0, 0%, 100%);
+   
+    color: hsl(0, 0%, 0%);
     font-size: 10px;
+    align-items: center;
+    text-align: center;
+    width: 100vh;
+    position: relative;
+    
+    
 }
 
 
