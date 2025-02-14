@@ -10,9 +10,8 @@ body{
     background-size: cover; /* Faz a imagem cobrir todo o fundo */
     background-position: center; /* Centraliza a imagem */
     background-repeat: no-repeat; /* Evita repetição da imagem */
-    /*height: 100vh;*/
-    max-height: 100%;
-    max-width: 100%;
+    height: 100vh;
+    
 
     /*display: flexbox;*/
     place-items: center;
