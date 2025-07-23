@@ -1,75 +1,217 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJ - FOA - Comunica PJE API</title>
-    <link rel="stylesheet" href="style/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJ - FOA - DJEN </title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style/style.css" />
 
-</head>
-<body>
-    
-    
+
+  </head>
+  <body>
     <div class="container">
-        <div class="centerbox">
-            <h1>Exportador de Publicações Judiciais do ComunicaPJe para Excel</h1>
-            <p>Essa ferramenta foi criada para ajudar você a exportar as publicações do ComunicaPJe de forma fácil e rápida. Assim, fica mais simples organizar, verificar e comparar as informações diretamente no Excel, usando a API oficial do CNJ.</p>
-           
-            <p>Para prosseguir, insira as informações abaixo para a pesquisa</p>
-            <div class="innerBox">
-                <div>
-                    <label for="nomeParte">Nome:</label>
-                    <input type="text" id="nomeParte" placeholder="Digite o nome da parte">
+      <div class="row faderBG">
+          <div class="col s12 ">
+              <div class="text-center">
+                <div class="section flow-text">
+                    <h1 class="flow-text">Exportador de Publicações Judiciais do DJEN para Excel</h1>
+                    <div class="flow-text ">
+                        <p class="flow-text">
+                          Essa ferramenta foi criada para ajudar você a exportar as publicações
+                          do DJEN de forma fácil e rápida. Assim, fica mais simples
+                          organizar, verificar e comparar as informações diretamente no Excel,
+                          usando a API oficial do CNJ.
+                        </p>
+                        <p>Para prosseguir, insira as informações abaixo para a pesquisa: </p>
+                    </div>
                 </div>
-                <div><label for="OAB">OAB: </label><input type="number" id="OAB"></div>
-                <div><label for="UF">UF da OAB: </label>
-                    <select name="estado" id="UF">
-                        <option value="RJ">RJ</option>
-                        <option value="AC">AC</option>
-                        <option value="AL">AL</option>
-                        <option value="AP">AP</option>
-                        <option value="AM">AM</option>
-                        <option value="BA">BA</option>
-                        <option value="CE">CE</option>
-                        <option value="ES">ES</option>
-                        <option value="GO">GO</option>
-                        <option value="MA">MA</option>
-                        <option value="MT">MT</option>
-                        <option value="MS">MS</option>
-                        <option value="MG">MG</option>
-                        <option value="PA">PA</option>
-                        <option value="PB">PB</option>
-                        <option value="PR">PR</option>
-                        <option value="PE">PE</option>
-                        <option value="PI">PI</option>
-                        <option value="RN">RN</option>
-                        <option value="RS">RS</option>
-                        <option value="RO">RO</option>
-                        <option value="RR">RR</option>
-                        <option value="SC">SC</option>
-                        <option value="SP">SP</option>
-                        <option value="SE">SE</option>
-                        <option value="TO">TO</option>
-                        <option value="DF">DF</option>
-                    </select>
+                <div class="col s8 offset-s2">
+            
+                    <div class="input-fiel ">
+                        <label class="" for="nomeParte">Nome:</label>
+                        <input class="materialize-textarea" type="text" id="nomeParte" placeholder="Digite o nome da parte"/>
+                    </div>
+                    <div>
+                        <label for="OAB">OAB: </label><input type="number" id="OAB" placeholder="insira a OAB"/>
+                    </div>
+                    <div>
+                        <label for="UF">UF da OAB: </label>
+                        <select name="estado" id="UF">
+                            <option value="RJ">RJ</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                            <option value="DF">DF</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dataInicio">Data de Início: </label>
+                        <input type="date" id="dataInicio" />
+                    </div>
+                    <div>
+                        <label for="dataFim">Data Final: </label>
+                        <input type="date" id="dataFim" />
+                    </div>
+                    <div class="input-text">
+                      <label for="texto">Teor da Comunicação:</label>
+                      <input type="text" formcontrolname="texto" class="materialize-textarea" id="teor" placeholder="Digite o teor da comunicação" />
+                    </div>
+                    <div class="">
+                        <label for="Tribunal">Tribunal</label>
+                        <select id="Tribunal" name="Tribunal">
+                            <option value="" disabled selected>Escolha o tribunal</option>
+                            <option value="0: null">Todas as instituições</option>
+                            <option value="1: CNJ">CNJ - Conselho Nacional de Justiça</option>
+                            <option value="2: PJeCor">PJeCor - Corregedorias</option>
+                            <option value="3: SEEU">Sistema Eletrônico de Execução Unificado</option>
+                            <option value="4: CJF">CJF - Conselho da Justiça Federal</option>
+                            <option value="5: CSJT">CSJT - Conselho Superior da Justiça do Trabalho</option>
+                            <option value="6: STF">STF - Supremo Tribunal Federal</option>
+                            <option value="7: STJ">STJ - Superior Tribunal de Justiça</option>
+                            <option value="8: STM">STM - Superior Tribunal Militar</option>
+                            <option value="9: TJAC">TJAC - Tribunal de Justiça do Acre</option>
+                            <option value="10: TJAL">TJAL - Tribunal de Justiça de Alagoas</option>
+                            <option value="11: TJAM">TJAM - Tribunal de Justiça do Amazonas</option>
+                            <option value="12: TJAP">TJAP - Tribunal de Justiça do Amapá</option>
+                            <option value="13: TJBA">TJBA - Tribunal de Justiça da Bahia</option>
+                            <option value="14: TJCE">TJCE - Tribunal de Justiça do Ceará</option>
+                            <option value="15: TJDFT">TJDFT - Tribunal de Justiça do Distrito Federal e Territórios</option>
+                            <option value="16: TJES">TJES - Tribunal de Justiça do Espírito Santo</option>
+                            <option value="17: TJGO">TJGO - Tribunal de Justiça de Goiás</option>
+                            <option value="18: TJMA">TJMA - Tribunal de Justiça do Maranhão</option>
+                            <option value="19: TJMG">TJMG - Tribunal de Justiça de Minas Gerais</option>
+                            <option value="20: TJMMG">TJMMG - Tribunal de Justiça Militar do Estado de Minas Gerais</option>
+                            <option value="21: TJMRS">TJMRS - Tribunal de Justiça Militar do Estado do Rio Grande do Sul</option>
+                            <option value="22: TJMS">TJMS - Tribunal de Justiça do Mato Grosso do Sul</option>
+                            <option value="23: TJMSP">TJMSP - Tribunal de Justiça Militar do Estado de São Paulo</option>
+                            <option value="24: TJMT">TJMT - Tribunal de Justiça do Mato Grosso</option>
+                            <option value="25: TJPA">TJPA - Tribunal de Justiça do Pará</option>
+                            <option value="26: TJPB">TJPB - Tribunal de Justiça da Paraíba</option>
+                            <option value="27: TJPE">TJPE - Tribunal de Justiça de Pernambuco</option>
+                            <option value="28: TJPI">TJPI - Tribunal de Justiça do Piauí</option>
+                            <option value="29: TJPR">TJPR - Tribunal de Justiça do Paraná</option>
+                            <option value="30: TJRJ">TJRJ - Tribunal de Justiça do Rio de Janeiro</option>
+                            <option value="31: TJRN">TJRN - Tribunal de Justiça do Rio Grande do Norte</option>
+                            <option value="32: TJRO">TJRO - Tribunal de Justiça de Rondônia</option>
+                            <option value="33: TJRR">TJRR - Tribunal de Justiça de Roraima</option>
+                            <option value="34: TJRS">TJRS - Tribunal de Justiça do Rio Grande do Sul</option>
+                            <option value="35: TJSC">TJSC - Tribunal de Justiça de Santa Catarina</option>
+                            <option value="36: TJSE">TJSE - Tribunal de Justiça de Sergipe</option>
+                            <option value="37: TJSP">TJSP - Tribunal de Justiça de São Paulo</option>
+                            <option value="38: TJTO">TJTO - Tribunal de Justiça do Estado de Tocantins</option>
+                            <option value="39: TRE-AC">TRE-AC - Tribunal Regional Eleitoral do Acre</option>
+                            <option value="40: TRE-AL">TRE-AL - Tribunal Regional Eleitoral de Alagoas</option>
+                            <option value="41: TRE-AM">TRE-AM - Tribunal Regional Eleitoral do Amazonas</option>
+                            <option value="42: TRE-AP">TRE-AP - Tribunal Regional Eleitoral do Amapá</option>
+                            <option value="43: TRE-BA">TRE-BA - Tribunal Regional Eleitoral da Bahia</option>
+                            <option value="44: TRE-CE">TRE-CE - Tribunal Regional Eleitoral do Ceará</option>
+                            <option value="45: TRE-DF">TRE-DF - Tribunal Regional Eleitoral do Distrito Federal e Territórios</option>
+                            <option value="46: TRE-ES">TRE-ES - Tribunal Regional Eleitoral do Espírito Santo</option>
+                            <option value="47: TRE-GO">TRE-GO - Tribunal Regional Eleitoral de Goiás</option>
+                            <option value="48: TRE-MA">TRE-MA - Tribunal Regional Eleitoral do Maranhão</option>
+                            <option value="49: TRE-MG">TRE-MG - Tribunal Regional Eleitoral de Minas Gerais</option>
+                            <option value="50: TRE-MS">TRE-MS - Tribunal Regional Eleitoral do Mato Grosso do Sul</option>
+                            <option value="51: TRE-MT">TRE-MT - Tribunal Regional Eleitoral do Mato Grosso</option>
+                            <option value="52: TRE-PA">TRE-PA - Tribunal Regional Eleitoral do Pará</option>
+                            <option value="53: TRE-PB">TRE-PB - Tribunal Regional Eleitoral da Paraíba</option>
+                            <option value="54: TRE-PE">TRE-PE - Tribunal Regional Eleitoral de Pernambuco</option>
+                            <option value="55: TRE-PI">TRE-PI - Tribunal Regional Eleitoral do Piauí</option>
+                            <option value="56: TRE-PR">TRE-PR - Tribunal Regional Eleitoral do Paraná</option>
+                            <option value="57: TRE-RJ">TRE-RJ - Tribunal Regional Eleitoral do Rio de Janeiro</option>
+                            <option value="58: TRE-RN">TRE-RN - Tribunal Regional Eleitoral do Rio Grande do Norte</option>
+                            <option value="59: TRE-RO">TRE-RO - Tribunal Regional Eleitoral de Rondônia</option>
+                            <option value="60: TRE-RR">TRE-RR - Tribunal Regional Eleitoral de Roraima</option>
+                            <option value="61: TRE-RS">TRE-RS - Tribunal Regional Eleitoral do Rio Grande do Sul</option>
+                            <option value="62: TRE-SC">TRE-SC - Tribunal Regional Eleitoral de Santa Catarina</option>
+                            <option value="63: TRE-SE">TRE-SE - Tribunal Regional Eleitoral de Sergipe</option>
+                            <option value="64: TRE-SP">TRE-SP - Tribunal Regional Eleitoral de São Paulo</option>
+                            <option value="65: TRE-TO">TRE-TO - Tribunal Regional Eleitoral de Tocantins</option>
+                            <option value="66: TRF1">TRF1 - Tribunal Regional Federal da 1ª Região</option>
+                            <option value="67: TRF2">TRF2 - Tribunal Regional Federal da 2ª Região</option>
+                            <option value="68: TRF3">TRF3 - Tribunal Regional Federal da 3ª Região</option>
+                            <option value="69: TRF4">TRF4 - Tribunal Regional Federal da 4ª Região</option>
+                            <option value="70: TRF5">TRF5 - Tribunal Regional Federal da 5ª Região</option>
+                            <option value="71: TRF6">TRF6 - Tribunal Regional Federal da 6ª Região</option>
+                            <option value="72: TRT1">TRT1 - Tribunal Regional do Trabalho da 1ª Região</option>
+                            <option value="73: TRT10">TRT10 - Tribunal Regional do Trabalho da 10ª Região</option>
+                            <option value="74: TRT11">TRT11 - Tribunal Regional do Trabalho da 11ª Região</option>
+                            <option value="75: TRT12">TRT12 - Tribunal Regional do Trabalho da 12ª Região</option>
+                            <option value="76: TRT13">TRT13 - Tribunal Regional do Trabalho da 13ª Região</option>
+                            <option value="77: TRT14">TRT14 - Tribunal Regional do Trabalho da 14ª Região</option>
+                            <option value="78: TRT15">TRT15 - Tribunal Regional do Trabalho da 15ª Região</option>
+                            <option value="79: TRT16">TRT16 - Tribunal Regional do Trabalho da 16ª Região</option>
+                            <option value="80: TRT17">TRT17 - Tribunal Regional do Trabalho da 17ª Região</option>
+                            <option value="81: TRT18">TRT18 - Tribunal Regional do Trabalho da 18ª Região</option>
+                            <option value="82: TRT19">TRT19 - Tribunal Regional do Trabalho da 19ª Região</option>
+                            <option value="83: TRT2">TRT2 - Tribunal Regional do Trabalho da 2ª Região</option>
+                            <option value="84: TRT20">TRT20 - Tribunal Regional do Trabalho da 20ª Região</option>
+                            <option value="85: TRT21">TRT21 - Tribunal Regional do Trabalho da 21ª Região</option>
+                            <option value="86: TRT22">TRT22 - Tribunal Regional do Trabalho da 22ª Região</option>
+                            <option value="87: TRT23">TRT23 - Tribunal Regional do Trabalho da 23ª Região</option>
+                            <option value="88: TRT24">TRT24 - Tribunal Regional do Trabalho da 24ª Região</option>
+                            <option value="89: TRT3">TRT3 - Tribunal Regional do Trabalho da 3ª Região</option>
+                            <option value="90: TRT4">TRT4 - Tribunal Regional do Trabalho da 4ª Região</option>
+                            <option value="91: TRT5">TRT5 - Tribunal Regional do Trabalho da 5ª Região</option>
+                            <option value="92: TRT6">TRT6 - Tribunal Regional do Trabalho da 6ª Região</option>
+                            <option value="93: TRT7">TRT7 - Tribunal Regional do Trabalho da 7ª Região</option>
+                            <option value="94: TRT8">TRT8 - Tribunal Regional do Trabalho da 8ª Região</option>
+                            <option value="95: TRT9">TRT9 - Tribunal Regional do Trabalho da 9ª Região</option>
+                            <option value="96: TSE">TSE - Tribunal Superior Eleitoral</option>
+                            <option value="97: TST">TST - Tribunal Superior do Trabalho</option>
+                        </select>
+                        <label for="Tribunal">Tribunal</label>
+
+                    </div>
+                    <div class="center-align" style="margin-top: 20px;"><button onclick="obterComunicacoes()">Baixar Arquivo</button></div>
                 </div>
-                <div><label for="dataInicio">Data de Início: </label><input type="date" id="dataInicio"></div>
-                <div><label for="dataFim">Data Final: </label><input type="date" id="dataFim"></div>
+                
             </div>
-            <div><button onclick="obterComunicacoes()">Baixar Arquivo</button></div>
+            
         </div>
+    </div>
     </div>
 
     <footer>
-        <div>
-            ® - Feito por <a href="https://github.com/wesleybalb">Wesley Balbino</a> - <br> 2025 - Todos os direitos Reservados
-        </div>
+      <div>
+        ® - Feito por
+        <a href="https://github.com/wesleybalb">Wesley Balbino</a> - <br />
+        2025 - Todos os direitos Reservados
+      </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="script/script.js"></script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+  });
+</script>
 
-
-<script src="script/script.js"></script>
-</body>
+  </body>
 </html>
