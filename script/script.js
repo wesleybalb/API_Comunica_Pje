@@ -16,6 +16,9 @@
     let oab = document.getElementById("OAB").value;
     let ufOab = document.getElementById("UF").value;
     let nomeParte = document.getElementById("nomeParte").value.trim();
+    let texto = document.getElementById("teor").value;
+    let siglaTribunal = document.getElementById("Tribunal").value;
+
 
     const headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
@@ -181,7 +184,9 @@
 
     // Função para buscar uma página específica
     async function buscarPagina(pageNumber, pageSize = 100) {
-        const url = `https://comunicaapi.pje.jus.br/api/v1/comunicacao?nomeParte=${nomeParte}&numeroOab=${oab}&ufOab=${ufOab}&dataDisponibilizacaoInicio=${dataInicio}&dataDisponibilizacaoFim=${dataFim}&page=${pageNumber}&size=${pageSize}`;
+        const url = `https://comunicaapi.pje.jus.br/api/v1/comunicacao?nomeParte=${nomeParte}&numeroOab=${oab}&ufOab=${ufOab}&dataDisponibilizacaoInicio=${dataInicio}&dataDisponibilizacaoFim=${dataFim}&page=${pageNumber}&size=${pageSize}&texto=${encodeURIComponent(texto)}&siglaTribunal=${siglaTribunal}`;
+
+        console.log(url);
         
         const response = await fetch(url, { headers });
         
