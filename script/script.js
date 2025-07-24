@@ -1,16 +1,65 @@
 // Função para esconder loading
-    function esconderLoading() {
-        const botaoBuscar = document.getElementById("btnBuscar");
-        if (botaoBuscar) {
-            botaoBuscar.disabled = false;
-            botaoBuscar.textContent = "Buscar";
+function esconderLoading() {
+    const botaoBuscar = document.getElementById("btnBuscar");
+    if (botaoBuscar) {
+        botaoBuscar.disabled = false;
+        botaoBuscar.textContent = "Buscar";
+    }
+    
+    const loadingDiv = document.getElementById("loading-message");
+    if (loadingDiv) {
+        loadingDiv.style.display = "none";
+    }
+}
+
+// Função para remover duplicatas baseado no ID
+function removerDuplicatas(itens) {
+    const idsEncontrados = new Set();
+    const itensUnicos = [];
+    let duplicatasRemovidasCount = 0;
+    
+    console.log(`=== REMOVENDO DUPLICATAS ===`);
+    console.log(`Total de itens para processar: ${itens.length}`);
+    
+    for (let i = 0; i < itens.length; i++) {
+        const item = itens[i];
+        const id = item.id;
+        
+        // Debug: Mostra alguns itens sendo processados
+        if (i < 5 || (i % 100 === 0)) {
+            console.log(`Processando item ${i + 1}: ID = ${id}`);
         }
         
-        const loadingDiv = document.getElementById("loading-message");
-        if (loadingDiv) {
-            loadingDiv.style.display = "none";
+        // Verifica se o item tem ID válido
+        if (!id) {
+            console.warn(`Item sem ID encontrado no índice ${i}:`, item);
+            continue;
         }
-    }async function obterComunicacoes() {
+        
+        // Se o ID já foi encontrado, pula este item (duplicata)
+        if (idsEncontrados.has(id)) {
+            duplicatasRemovidasCount++;
+            console.log(`Duplicata removida - ID: ${id} (item ${i + 1})`);
+            continue;
+        }
+        
+        // Se é a primeira vez que vemos este ID, adiciona aos únicos
+        idsEncontrados.add(id);
+        itensUnicos.push(item);
+    }
+    
+    console.log(`Total de duplicatas removidas: ${duplicatasRemovidasCount}`);
+    console.log(`Registros únicos: ${itensUnicos.length}`);
+    console.log(`IDs únicos encontrados: ${idsEncontrados.size}`);
+    
+    return {
+        itensUnicos,
+        duplicatasRemovidas: duplicatasRemovidasCount,
+        totalOriginal: itens.length
+    };
+}
+
+async function obterComunicacoes() {
     let dataInicio = document.getElementById("dataInicio").value;
     let dataFim = document.getElementById("dataFim").value;
     let oab = document.getElementById("OAB").value;
@@ -18,7 +67,6 @@
     let nomeParte = document.getElementById("nomeParte").value.trim();
     let texto = document.getElementById("teor").value;
     let siglaTribunal = document.getElementById("Tribunal").value;
-
 
     const headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
@@ -87,8 +135,8 @@
         loadingDiv.style.display = "block";
     }
 
-    // Função para mostrar modal de sucesso
-    function mostrarModalSucesso(totalRegistros, paginasPesquisadas, nomeArquivo) {
+    // Função para mostrar modal de sucesso (atualizada para mostrar duplicatas removidas)
+    function mostrarModalSucesso(totalRegistros, paginasPesquisadas, nomeArquivo, duplicatasRemovidas = 0, totalOriginal = 0) {
         // Remove loading se existir
         esconderLoading();
         
@@ -107,6 +155,34 @@
             align-items: center;
             justify-content: center;
             font-family: Arial, sans-serif;
+        `;
+        
+        // Constrói o conteúdo do resumo
+        let resumoConteudo = `
+            <div style="margin-bottom: 10px; font-size: 16px; color: #333;">
+                <strong>${totalRegistros}</strong> comunicações únicas encontradas
+            </div>
+            <div style="margin-bottom: 10px; font-size: 14px; color: #666;">
+                ${paginasPesquisadas} página(s) pesquisada(s)
+            </div>
+        `;
+        
+        // Adiciona informação sobre duplicatas se houver
+        if (duplicatasRemovidas > 0) {
+            resumoConteudo += `
+                <div style="margin-bottom: 10px; font-size: 14px; color: #ff6b35; border-left: 3px solid #ff6b35; padding-left: 10px;">
+                    ${duplicatasRemovidas} duplicata(s) removida(s)
+                </div>
+                <div style="margin-bottom: 10px; font-size: 12px; color: #999;">
+                    Total original: ${totalOriginal} registros
+                </div>
+            `;
+        }
+        
+        resumoConteudo += `
+            <div style="font-size: 14px; color: #666;">
+                Arquivo: <strong>${nomeArquivo}</strong>
+            </div>
         `;
         
         modal.innerHTML = `
@@ -146,15 +222,7 @@
                     margin: 20px 0;
                     border-left: 4px solid #4CAF50;
                 ">
-                    <div style="margin-bottom: 10px; font-size: 16px; color: #333;">
-                        <strong>${totalRegistros}</strong> comunicações encontradas
-                    </div>
-                    <div style="margin-bottom: 10px; font-size: 14px; color: #666;">
-                        ${paginasPesquisadas} página(s) pesquisada(s)
-                    </div>
-                    <div style="font-size: 14px; color: #666;">
-                        Arquivo: <strong>${nomeArquivo}</strong>
-                    </div>
+                    ${resumoConteudo}
                 </div>
                 
                 <button onclick="document.getElementById('modal-sucesso').remove()" style="
@@ -251,6 +319,28 @@
             return;
         }
 
+        mostrarLoading("Removendo duplicatas...");
+        
+        // Debug: Mostra alguns IDs antes de remover duplicatas
+        console.log("=== DEBUG: Primeiros 10 IDs encontrados ===");
+        todosItens.slice(0, 10).forEach((item, index) => {
+            console.log(`${index + 1}. ID: ${item.id}`);
+        });
+        console.log(`Total de itens coletados: ${todosItens.length}`);
+        
+        // Remove duplicatas baseado no ID
+        const resultadoSemDuplicatas = removerDuplicatas(todosItens);
+        const itensUnicos = resultadoSemDuplicatas.itensUnicos;
+        
+        console.log("=== DEBUG: Primeiros 10 IDs únicos após remoção ===");
+        itensUnicos.slice(0, 10).forEach((item, index) => {
+            console.log(`${index + 1}. ID: ${item.id}`);
+        });
+        
+        console.log(`Registros antes da remoção de duplicatas: ${resultadoSemDuplicatas.totalOriginal}`);
+        console.log(`Registros após remoção de duplicatas: ${itensUnicos.length}`);
+        console.log(`Duplicatas removidas: ${resultadoSemDuplicatas.duplicatasRemovidas}`);
+
         mostrarLoading("Processando dados...");
         
         // Função para formatar o número do processo
@@ -259,42 +349,91 @@
             return `${numero.slice(0, 7)}-${numero.slice(7, 9)}.${numero.slice(9, 13)}.${numero.slice(13, 14)}.${numero.slice(14, 16)}.${numero.slice(16)}`;
         }
 
-        // Criando os dados formatados para o Excel
-        const listaProcessada = todosItens.map(item => ({
-            "ID": item.id || "",
-            "Data Disponibilização": item.data_disponibilizacao || "",
-            "Tribunal": item.siglaTribunal || "",
-            "Tipo Comunicação": item.tipoComunicacao || "",
-            "Órgão": item.nomeOrgao || "",
-            "Texto": item.texto || "",
-            "Número Processo": formatarNumeroProcesso(item.numero_processo || ""),
-            "Link": item.link || "",
-            "Tipo Documento": item.tipoDocumento || "",
-            "Classe": item.nomeClasse || "",
-            "Número Comunicação": item.numeroComunicacao || "",
-            "Status": item.status || "",
-            "Meio": item.meiocompleto || "",
-            "Destinatários": (item.destinatarios || []).map(dest => dest.nome).join(", "),
-            "Advogados": (item.destinatarioadvogados || []).map(adv => adv.advogado.nome).join(", ")
-        }));
+        // Criando os dados formatados para o Excel (usando apenas itens únicos)
+        const listaProcessada = itensUnicos.map((item, index) => {
+            // Debug: Log dos primeiros 3 itens sendo processados
+            if (index < 3) {
+                console.log(`Processando item ${index + 1} para Excel:`, {
+                    id: item.id,
+                    data: item.data_disponibilizacao,
+                    tribunal: item.siglaTribunal
+                });
+            }
+            
+            return {
+                "ID": item.id || "",
+                "Data Disponibilização": item.data_disponibilizacao || "",
+                "Tribunal": item.siglaTribunal || "",
+                "Tipo Comunicação": item.tipoComunicacao || "",
+                "Órgão": item.nomeOrgao || "",
+                "Texto": item.texto || "",
+                "Número Processo": formatarNumeroProcesso(item.numero_processo || ""),
+                "Link": item.link || "",
+                "Tipo Documento": item.tipoDocumento || "",
+                "Classe": item.nomeClasse || "",
+                "Número Comunicação": item.numeroComunicacao || "",
+                "Status": item.status || "",
+                "Meio": item.meiocompleto || "",
+                "Destinatários": (item.destinatarios || []).map(dest => dest.nome).join(", "),
+                "Advogados": (item.destinatarioadvogados || []).map(adv => adv.advogado.nome).join(", ")
+            };
+        });
+
+        console.log(`Total de linhas que serão adicionadas ao Excel: ${listaProcessada.length}`);
 
         mostrarLoading("Gerando arquivo Excel...");
 
-        // Criando a planilha
+        console.log("=== DEBUG: GERAÇÃO DO EXCEL ===");
+        console.log(`Dados para Excel - Total de registros: ${listaProcessada.length}`);
+        console.log("Primeiros 3 registros:", listaProcessada.slice(0, 3));
+        
+        // Verificação extra: se listaProcessada está vazia ou com problema
+        if (!listaProcessada || listaProcessada.length === 0) {
+            console.error("ERRO: listaProcessada está vazia!");
+            esconderLoading();
+            alert("Erro: Nenhum dado para gerar Excel!");
+            return;
+        }
+
+        // Criando a planilha com log detalhado
+        console.log("Criando worksheet...");
         const ws = XLSX.utils.json_to_sheet(listaProcessada);
+        console.log("Worksheet criado:", ws);
+        
+        console.log("Criando workbook...");
         const wb = XLSX.utils.book_new();
+        
+        console.log("Adicionando sheet ao workbook...");
         XLSX.utils.book_append_sheet(wb, ws, "Comunicações OAB");
+        
+        console.log("Workbook final:", wb);
 
         // Gerando nome do arquivo com data e hora
         const now = new Date();
         const timestamp = `${now.getFullYear()}_${(now.getMonth() + 1).toString().padStart(2, '0')}_${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
         const fileName = `comunicacoes_oab_${timestamp}.xlsx`;
 
+        console.log(`Gerando arquivo: ${fileName}`);
+        
         // Gerando e baixando o arquivo Excel
-        XLSX.writeFile(wb, fileName);
+        try {
+            XLSX.writeFile(wb, fileName);
+            console.log("Arquivo Excel gerado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao gerar arquivo Excel:", error);
+            esconderLoading();
+            alert("Erro ao gerar arquivo Excel: " + error.message);
+            return;
+        }
 
-        // Mostra modal de sucesso
-        mostrarModalSucesso(todosItens.length, paginaAtual - 1, fileName);
+        // Mostra modal de sucesso com informações sobre duplicatas
+        mostrarModalSucesso(
+            itensUnicos.length, 
+            paginaAtual - 1, 
+            fileName, 
+            resultadoSemDuplicatas.duplicatasRemovidas,
+            resultadoSemDuplicatas.totalOriginal
+        );
         
     } catch (error) {
         console.error("Erro ao obter comunicações:", error);
